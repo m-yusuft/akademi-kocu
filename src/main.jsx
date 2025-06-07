@@ -26,7 +26,7 @@ const firebaseConfig = {
   measurementId: "G-XRGP4RK0CP"
 };
 
-// Firebase app, db, auth instances
+// Firebase app, db, auth instances (will be initialized in App component's useEffect)
 let app, db, auth, analytics;
 
 // Calculate date limits for birth year validation
@@ -307,7 +307,7 @@ const LoginRegister = React.memo(({ setAppError }) => {
           {/* İletişim Bilgileri */}
           <div className="text-center text-sm text-gray-600 mt-4">
             <p>Destek için:</p>
-            <p className="font-semibold">Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
+            <p className="font-semibold">Instagram: <a href="[https://www.instagram.com/sirfatihsultanterim](https://www.instagram.com/sirfatihsultanterim)" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
             <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
           </div>
         </form>
@@ -773,7 +773,7 @@ const Dashboard = React.memo(({ profile, progressData, pseudoUserId, aiRecommend
           {/* İletişim Bilgileri */}
           <div className="text-center text-sm text-gray-600 mb-6">
             <p>Destek için:</p>
-            <p className="font-semibold">Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
+            <p className="font-semibold">Instagram: <a href="[https://www.instagram.com/sirfatihsultanterim](https://www.instagram.com/sirfatihsultanterim)" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
             <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
           </div>
 
@@ -1878,421 +1878,420 @@ const ProgressEntry = React.memo(({ profile, pseudoUserId, progressData, editing
   }); // Wrapped with React.memo
 
 
-  export default function App() {
-    const [user, setUser] = useState(null); 
-    const [pseudoUserId, setPseudoUserId] = useState(null); 
-    const [isAuthReady, setIsAuthReady] = useState(false); // Auth state initialized
-    const [profile, setProfile] = useState(null); 
-    const [isProfileLoaded, setIsProfileLoaded] = useState(false); // New: Has profile data been fetched at least once?
+// Main App component
+export default function App() { // export default now correctly placed here
+  const [user, setUser] = useState(null); 
+  const [pseudoUserId, setPseudoUserId] = useState(null); 
+  const [isAuthReady, setIsAuthReady] = useState(false); // Auth state initialized
+  const [profile, setProfile] = useState(null); 
+  const [isProfileLoaded, setIsProfileLoaded] = useState(false); // New: Has profile data been fetched at least once?
 
-    const [progressData, setProgressData] = useState([]); 
-    const [aiChatHistory, setAiChatHistory] = useState([]); 
-    const [aiTopicHistory, setAiTopicHistory] = useState([]); // New state for AI Topic Chat History
-    const [aiRecommendations, setAiRecommendations] = useState(""); 
-    const [showAiCoachPopup, setShowAiCoachPopup] = useState(false); 
-    const [activeTab, setActiveTab] = useState('dashboard'); 
-    const [editingProgressEntry, setEditingProgressEntry] = useState(null); 
+  const [progressData, setProgressData] = useState([]); 
+  const [aiChatHistory, setAiChatHistory] = useState([]); 
+  const [aiTopicHistory, setAiTopicHistory] = useState([]); // New state for AI Topic Chat History
+  const [aiRecommendations, setAiRecommendations] = useState(""); 
+  const [showAiCoachPopup, setShowAiCoachPopup] = useState(false); 
+  const [activeTab, setActiveTab] = useState('dashboard'); 
+  const [editingProgressEntry, setEditingProgressEntry] = useState(null); 
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [modalAction, setModalAction] = useState(null); 
-    const [modalMessage, setModalMessage] = useState('');
-    const [appError, setAppError] = useState(null); 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [modalAction, setModalAction] = useState(null); 
+  const [modalMessage, setModalMessage] = useState('');
+  const [appError, setAppError] = useState(null); 
 
-    const toggleAiCoachPopup = useCallback(() => {
-      setShowAiCoachPopup(prev => !prev);
-    }, []);
+  const toggleAiCoachPopup = useCallback(() => {
+    setShowAiCoachPopup(prev => !prev);
+  }, []);
 
-    const fetchAiRecommendations = useCallback(async (currentProgressData, currentPseudoUserId) => {
-      if (!currentPseudoUserId || currentProgressData.length === 0) {
-        setAiRecommendations("Çalışma önerileri almak için ilerleme kaydı giriniz.");
-        return;
-      }
-      const prompt = `Kullanıcının şu ana kadar kaydettiği ilerleme: ${JSON.stringify(currentProgressData)}. Bu verilere dayanarak kullanıcıya özel, 2-3 cümle uzunluğunda, doğrudan kullanıcıya hitap eden akademik çalışma önerileri oluştur. Örneğin, "Daha fazla pratik yapmanız gereken konuları belirleyin" veya "Haftalık çalışma programı oluşturun".`;
+  const fetchAiRecommendations = useCallback(async (currentProgressData, currentPseudoUserId) => {
+    if (!currentPseudoUserId || currentProgressData.length === 0) {
+      setAiRecommendations("Çalışma önerileri almak için ilerleme kaydı giriniz.");
+      return;
+    }
+    const prompt = `Kullanıcının şu ana kadar kaydettiği ilerleme: ${JSON.stringify(currentProgressData)}. Bu verilere dayanarak kullanıcıya özel, 2-3 cümle uzunluğunda, doğrudan kullanıcıya hitap eden akademik çalışma önerileri oluştur. Örneğin, "Daha fazla pratik yapmanız gereken konuları belirleyin" veya "Haftalık çalışma programı oluşturun".`;
 
-      try {
-        const apiKey = "AIzaSyC_klt6i2LBaZUo6YRHDg4f0Z1kj7NWKac"; // Corrected API Key
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    try {
+      const apiKey = "AIzaSyC_klt6i2LBaZUo6YRHDg4f0Z1kj7NWKac"; // Corrected API Key
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-        const payload = {
-          contents: [{ role: "user", parts: [{ text: prompt }] }],
-        };
-        
+      const payload = {
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+      };
+      
 
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            setAiRecommendations(`API Hatası: ${response.status} - ${errorText || 'Bilinmeyen bir hata oluştu.'}`);
-            console.error("AI Recommendation API Error:", response.status, errorText);
-            return;
-        }
-
-        const result = await response.json();
-        if (result.error) {
-            setAiRecommendations(`API Hatası: ${result.error.message || 'Bilinmeyen bir hata oluştu.'}`);
-            console.error("AI Recommendation API Error:", result.error);
-            return;
-        }
-        if (result.candidates && result.candidates.length > 0 &&
-            result.candidates[0].content && result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0) {
-          setAiRecommendations(result.candidates[0].content.parts[0].text);
-        } else {
-          setAiRecommendations("Şu an için öneri alınamıyor. Lütfen daha sonra tekrar deneyin.");
-        }
-      } catch (error) {
-        console.error("AI önerileri alınırken hata:", error);
-        setAiRecommendations("Şu an için öneri alınamıyor. İnternet bağlantınızı kontrol edin veya daha sonra deneyin.");
-      }
-    }, []); 
-
-    const handleEditProgress = useCallback((entry) => {
-      setEditingProgressEntry(entry); 
-      setActiveTab('progress'); 
-    }, [setEditingProgressEntry, setActiveTab]); 
-
-    const handleDeleteProgress = useCallback((idToDelete) => {
-      if (!pseudoUserId) { 
-        setModalMessage("Kullanıcı kimliği bulunamadı.");
-        setShowConfirmModal(true);
-        return;
-      }
-      setModalMessage("Bu kaydı silmek istediğinizden emin misiniz?");
-      setModalAction(() => async () => { 
-        try {
-          await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'progress', idToDelete));
-          console.log("Kayıt başarıyla silindi!");
-        } catch (error) {
-          console.error("Kayıt silme hatası:", error);
-        } finally {
-          setShowConfirmModal(false); 
-          setModalAction(null); 
-        }
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-      setShowConfirmModal(true); 
-    }, [pseudoUserId, setModalAction, setShowConfirmModal, setModalMessage]); 
 
-    // 1. Firebase başlatma ve Auth State dinleyicisi
-    useEffect(() => {
-      try {
-        app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-        analytics = getAnalytics(app); 
-
-        const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-          setUser(currentUser); 
-          setIsAuthReady(true); 
-          // Auth state değiştiğinde profilin yüklenmiş durumunu sıfırla, yeniden kontrol edilmesini sağla
-          setIsProfileLoaded(false); 
-          setProfile(null); // Clear previous profile on auth state change
-          if (currentUser) {
-            setPseudoUserId(currentUser.uid);
-          } else {
-            // When logged out, clear all user-specific data
-            setPseudoUserId(null); // Ensure pseudoUserId is null
-            setProgressData([]);
-            setAiChatHistory([]);
-            setAiTopicHistory([]); 
-            setAiRecommendations('');
-          }
-        });
-
-        return () => unsubscribeAuth();
-      } catch (error) {
-        console.error("Firebase başlatılırken hata oluştu:", error);
-        setAppError(`Uygulama başlatılırken kritik hata: ${error.message}. Lütfen Firebase yapılandırmanızı kontrol edin.`);
-        setIsAuthReady(true); // Still mark as ready to prevent infinite loading state
-        setIsProfileLoaded(true); // Allow rendering of login page even if Firebase init fails
+      if (!response.ok) {
+          const errorText = await response.text();
+          setAiRecommendations(`API Hatası: ${response.status} - ${errorText || 'Bilinmeyen bir hata oluştu.'}`);
+          console.error("AI Recommendation API Error:", response.status, errorText);
+          return;
       }
-    }, []); 
 
-    // 2. Firestore dinleyicilerini kurma (db ve pseudoUserId'ye bağlı)
-    useEffect(() => {
-        let unsubscribeProfile, unsubscribeProgress, unsubscribeChat, unsubscribeTopicChat;
+      const result = await response.json();
+      if (result.error) {
+          setAiRecommendations(`API Hatası: ${result.error.message || 'Bilinmeyen bir hata oluştu.'}`);
+          console.error("AI Recommendation API Error:", result.error);
+          return;
+      }
+      if (result.candidates && result.candidates.length > 0 &&
+          result.candidates[0].content && result.candidates[0].content.parts &&
+          result.candidates[0].content.parts.length > 0) {
+        setAiRecommendations(result.candidates[0].content.parts[0].text);
+      } else {
+        setAiRecommendations("Şu an için öneri alınamıyor. Lütfen daha sonra tekrar deneyin.");
+      }
+    } catch (error) {
+      console.error("AI önerileri alınırken hata:", error);
+      setAiRecommendations("Şu an için öneri alınamıyor. İnternet bağlantınızı kontrol edin veya daha sonra deneyin.");
+    }
+  }, []); 
 
-        if (db && pseudoUserId) {
-            // Kullanıcı Profili Dinleyicisi
-            const userProfileRef = doc(db, 'artifacts', appId, 'public', 'data', 'registeredUsers', pseudoUserId); 
-            unsubscribeProfile = onSnapshot(userProfileRef, (docSnap) => {
-                const newProfileData = docSnap.exists() ? docSnap.data() : null;
-                setProfile(newProfileData);
-                setIsProfileLoaded(true); // Profil verisi çekildi (var olsun ya da olmasın)
-            }, (error) => {
-                console.error("Profil verisi çekilirken hata oluştu:", error);
-                setAppError(`Profil verisi yüklenirken hata: ${error.message}`);
-                setIsProfileLoaded(true); // Hata durumunda da yüklenmiş olarak işaretle
-            });
+  const handleEditProgress = useCallback((entry) => {
+    setEditingProgressEntry(entry); 
+    setActiveTab('progress'); 
+  }, [setEditingProgressEntry, setActiveTab]); 
 
-            // İlerleme Verileri Dinleyicisi
-            const progressCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'progress');
-            unsubscribeProgress = onSnapshot(query(progressCollectionRef, orderBy('timestamp', 'desc')), (snapshot) => {
-                const newData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setProgressData(newData);
-            }, (error) => {
-                console.error("İlerleme verisi çekilirken hata oluştu:", error);
-                setAppError(`İlerleme verileri yüklenirken hata: ${error.message}`);
-            });
+  const handleDeleteProgress = useCallback((idToDelete) => {
+    if (!pseudoUserId) { 
+      setModalMessage("Kullanıcı kimliği bulunamadı.");
+      setShowConfirmModal(true);
+      return;
+    }
+    setModalMessage("Bu kaydı silmek istediğinizden emin misiniz?");
+    setModalAction(() => async () => { 
+      try {
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'progress', idToDelete));
+        console.log("Kayıt başarıyla silindi!");
+      } catch (error) {
+        console.error("Kayıt silme hatası:", error);
+      } finally {
+        setShowConfirmModal(false); 
+        setModalAction(null); 
+      }
+    });
+    setShowConfirmModal(true); 
+  }, [pseudoUserId, setModalAction, setShowConfirmModal, setModalMessage]); 
 
-            // AI Sohbet Geçmişi Dinleyicisi
-            const chatHistoryCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'aiChatHistory');
-            unsubscribeChat = onSnapshot(query(chatHistoryCollectionRef, orderBy('timestamp')), (snapshot) => {
-                const newHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setAiChatHistory(newHistory);
-            }, (error) => {
-                console.error("AI sohbet geçmişi çekilirken hata oluştu:", error);
-                setAppError(`AI sohbet geçmişi yüklenirken hata: ${error.message}`);
-            });
+  // 1. Firebase başlatma ve Auth State dinleyicisi
+  useEffect(() => {
+    try {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      auth = getAuth(app);
+      analytics = getAnalytics(app); 
 
-            // AI Konu Anlatımı Geçmişi Dinleyicisi
-            const topicHistoryCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'aiTopicHistory');
-            unsubscribeTopicChat = onSnapshot(query(topicHistoryCollectionRef, orderBy('timestamp')), (snapshot) => {
-                const newHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setAiTopicHistory(newHistory);
-            }, (error) => {
-                console.error("AI konu anlatımı geçmişi çekilirken hata oluştu:", error);
-                setAppError(`AI konu anlatımı geçmişi yüklenirken hata: ${error.message}`);
-            });
-
+      const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser); 
+        setIsAuthReady(true); 
+        // Auth state değiştiğinde profilin yüklenmiş durumunu sıfırla, yeniden kontrol edilmesini sağla
+        setIsProfileLoaded(false); 
+        setProfile(null); // Clear previous profile on auth state change
+        if (currentUser) {
+          setPseudoUserId(currentUser.uid);
         } else {
-          // pseudoUserId null ise dinleyicileri temizle ve verileri sıfırla (eğer zaten sıfırlanmamışsa)
-          setProfile(null); // Profil null
-          setIsProfileLoaded(false); // Profilin yüklü olmadığını işaretle
+          // When logged out, clear all user-specific data
+          setPseudoUserId(null); // Ensure pseudoUserId is null
           setProgressData([]);
           setAiChatHistory([]);
-          setAiTopicHistory([]);
+          setAiTopicHistory([]); 
+          setAiRecommendations('');
         }
-        
-        return () => {
-          // pseudoUserId veya db değiştiğinde eski dinleyicileri temizle
-          if (unsubscribeProfile) unsubscribeProfile();
-          if (unsubscribeProgress) unsubscribeProgress();
-          if (unsubscribeChat) unsubscribeChat();
-          if (unsubscribeTopicChat) unsubscribeTopicChat(); 
-        };
-    }, [db, pseudoUserId]); // Dependencies are important!
+      });
 
-    // 3. AI Önerilerini Çekme (profil ve ilerleme verileri hazır olduğunda)
-    useEffect(() => {
-      if (profile && pseudoUserId) { // Yalnızca profil varsa ve kullanıcı kimliği biliniyorsa çek
-        fetchAiRecommendations(progressData, pseudoUserId); 
+      return () => unsubscribeAuth();
+    } catch (error) {
+      console.error("Firebase başlatılırken hata oluştu:", error);
+      setAppError(`Uygulama başlatılırken kritik hata: ${error.message}. Lütfen Firebase yapılandırmanızı kontrol edin.`);
+      setIsAuthReady(true); // Still mark as ready to prevent infinite loading state
+      setIsProfileLoaded(true); // Allow rendering of login page even if Firebase init fails
+    }
+  }, []); 
+
+  // 2. Firestore dinleyicilerini kurma (db ve pseudoUserId'ye bağlı)
+  useEffect(() => {
+      let unsubscribeProfile, unsubscribeProgress, unsubscribeChat, unsubscribeTopicChat;
+
+      if (db && pseudoUserId) {
+          // Kullanıcı Profili Dinleyicisi
+          const userProfileRef = doc(db, 'artifacts', appId, 'public', 'data', 'registeredUsers', pseudoUserId); 
+          unsubscribeProfile = onSnapshot(userProfileRef, (docSnap) => {
+              const newProfileData = docSnap.exists() ? docSnap.data() : null;
+              setProfile(newProfileData);
+              setIsProfileLoaded(true); // Profil verisi çekildi (var olsun ya da olmasın)
+          }, (error) => {
+              console.error("Profil verisi çekilirken hata oluştu:", error);
+              setAppError(`Profil verisi yüklenirken hata: ${error.message}`);
+              setIsProfileLoaded(true); // Hata durumunda da yüklenmiş olarak işaretle
+          });
+
+          // İlerleme Verileri Dinleyicisi
+          const progressCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'progress');
+          unsubscribeProgress = onSnapshot(query(progressCollectionRef, orderBy('timestamp', 'desc')), (snapshot) => {
+              const newData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              setProgressData(newData);
+          }, (error) => {
+              console.error("İlerleme verisi çekilirken hata oluştu:", error);
+              setAppError(`İlerleme verileri yüklenirken hata: ${error.message}`);
+          });
+
+          // AI Sohbet Geçmişi Dinleyicisi
+          const chatHistoryCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'aiChatHistory');
+          unsubscribeChat = onSnapshot(query(chatHistoryCollectionRef, orderBy('timestamp')), (snapshot) => {
+              const newHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              setAiChatHistory(newHistory);
+          }, (error) => {
+              console.error("AI sohbet geçmişi çekilirken hata oluştu:", error);
+              setAppError(`AI sohbet geçmişi yüklenirken hata: ${error.message}`);
+          });
+
+          // AI Konu Anlatımı Geçmişi Dinleyicisi
+          const topicHistoryCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'users', pseudoUserId, 'aiTopicHistory');
+          unsubscribeTopicChat = onSnapshot(query(topicHistoryCollectionRef, orderBy('timestamp')), (snapshot) => {
+              const newHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              setAiTopicHistory(newHistory);
+          }, (error) => {
+              console.error("AI konu anlatımı geçmişi çekilirken hata oluştu:", error);
+              setAppError(`AI konu anlatımı geçmişi yüklenirken hata: ${error.message}`);
+          });
+
       } else {
-        setAiRecommendations("Profil ve ilerleme bilgileri yüklendikten sonra öneriler sunulacaktır.");
+        // pseudoUserId null ise dinleyicileri temizle ve verileri sıfırla (eğer zaten sıfırlanmamışsa)
+        setProfile(null); // Profil null
+        setIsProfileLoaded(false); // Profilin yüklü olmadığını işaretle
+        setProgressData([]);
+        setAiChatHistory([]);
+        setAiTopicHistory([]);
       }
-    }, [profile, progressData, pseudoUserId, fetchAiRecommendations]); 
+      
+      return () => {
+        // pseudoUserId veya db değiştiğinde eski dinleyicileri temizle
+        if (unsubscribeProfile) unsubscribeProfile();
+        if (unsubscribeProgress) unsubscribeProgress();
+        if (unsubscribeChat) unsubscribeChat();
+        if (unsubscribeTopicChat) unsubscribeTopicChat(); 
+      };
+  }, [db, pseudoUserId]); // Dependencies are important!
+
+  // 3. AI Önerilerini Çekme (profil ve ilerleme verileri hazır olduğunda)
+  useEffect(() => {
+    if (profile && pseudoUserId) { // Yalnızca profil varsa ve kullanıcı kimliği biliniyorsa çek
+      fetchAiRecommendations(progressData, pseudoUserId); 
+    } else {
+      setAiRecommendations("Profil ve ilerleme bilgileri yüklendikten sonra öneriler sunulacaktır.");
+    }
+  }, [profile, progressData, pseudoUserId, fetchAiRecommendations]); 
 
 
-    return (
-      <div className="min-h-screen bg-gray-100 font-inter antialiased flex flex-col">
-        {/* Navbar */}
-        <nav className="bg-gradient-to-r from-blue-700 to-blue-900 p-4 shadow-lg sticky top-0 z-40">
-          <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div className="text-white text-3xl font-extrabold mb-4 md:mb-0">
-              <a href="#" onClick={() => setActiveTab('dashboard')} className="hover:text-blue-200 transition-colors duration-300">
-                Akademi Koçu
-              </a>
-            </div>
-            <div className="flex flex-wrap justify-center md:space-x-6 space-x-2">
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'dashboard' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                <i className="fas fa-home mr-2"></i>Kontrol Paneli
-              </button>
-              <button
-                onClick={() => setActiveTab('progress')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'progress' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                <i className="fas fa-chart-line mr-2"></i>İlerleme Kaydı
-              </button>
-              <button
-                onClick={() => setActiveTab('aiCoach')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'aiCoach' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                {/* Modern AI / Robot Icon */}
-                <i className="fas fa-robot mr-2"></i>
-                AI Koç
-              </button>
-              <button
-                onClick={() => setActiveTab('aiMock')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'aiMock' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                <i className="fas fa-clipboard-list mr-2"></i>AI Deneme
-              </button>
-              <button
-                onClick={() => setActiveTab('aiTopic')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'aiTopic' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                <i className="fas fa-book-open mr-2"></i>AI Konu Anlatımı
-              </button>
-              <button
-                onClick={() => setActiveTab('profile')}
-                className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                  activeTab === 'profile' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
-                }`}
-              >
-                <i className="fas fa-user-circle mr-2"></i>Profilim
-              </button>
-              <button
-                onClick={async () => {
-                  try {
-                    await signOut(auth); 
-                    setActiveTab('dashboard'); // Ana sayfaya yönlendir
-                  } catch (error) {
-                    console.error("Çıkış yaparken hata:", error);
-                    setAppError(`Çıkış sırasında hata: ${error.message}`);
-                  }
-                }}
-                className="py-2 px-4 rounded-lg font-semibold text-blue-200 hover:text-white transition-colors duration-300 bg-red-600 hover:bg-red-700"
-              >
-                <i className="fas fa-sign-out-alt mr-2"></i>Çıkış Yap
-              </button>
-            </div>
+  return (
+    <div className="min-h-screen bg-gray-100 font-inter antialiased flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-gradient-to-r from-blue-700 to-blue-900 p-4 shadow-lg sticky top-0 z-40">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+          <div className="text-white text-3xl font-extrabold mb-4 md:mb-0">
+            <a href="#" onClick={() => setActiveTab('dashboard')} className="hover:text-blue-200 transition-colors duration-300">
+              Akademi Koçu
+            </a>
           </div>
-        </nav>
-
-        {/* Display application-wide errors */}
-        {appError && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative m-4 shadow-md">
-            <strong className="font-bold">Hata!</strong>
-            <span className="block sm:inline ml-2">{appError}</span>
-            <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={() => setAppError(null)}>
-              <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Kapat</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.414l-2.651 2.651a1.2 1.2 0 1 1-1.697-1.697L8.586 10 5.935 7.349a1.2 1.2 0 0 1 1.697-1.697L10 8.586l2.651-2.651a1.2 1.2 0 0 1 1.697 1.697L11.414 10l2.651 2.651a1.2 1.2 0 0 1 0 1.698z"/></svg>
-            </span>
+          <div className="flex flex-wrap justify-center md:space-x-6 space-x-2">
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'dashboard' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              <i className="fas fa-home mr-2"></i>Kontrol Paneli
+            </button>
+            <button
+              onClick={() => setActiveTab('progress')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'progress' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              <i className="fas fa-chart-line mr-2"></i>İlerleme Kaydı
+            </button>
+            <button
+              onClick={() => setActiveTab('aiCoach')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'aiCoach' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              {/* Modern AI / Robot Icon */}
+              <i className="fas fa-robot mr-2"></i>
+              AI Koç
+            </button>
+            <button
+              onClick={() => setActiveTab('aiMock')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'aiMock' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              <i className="fas fa-clipboard-list mr-2"></i>AI Deneme
+            </button>
+            <button
+              onClick={() => setActiveTab('aiTopic')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'aiTopic' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              <i className="fas fa-book-open mr-2"></i>AI Konu Anlatımı
+            </button>
+            <button
+              onClick={() => setActiveTab('profile')}
+              className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-300 ${
+                activeTab === 'profile' ? 'bg-blue-500 text-white shadow-md' : 'text-blue-200 hover:text-white'
+              }`}
+            >
+              <i className="fas fa-user-circle mr-2"></i>Profilim
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  await signOut(auth); 
+                  setActiveTab('dashboard'); // Ana sayfaya yönlendir
+                } catch (error) {
+                  console.error("Çıkış yaparken hata:", error);
+                  setAppError(`Çıkış sırasında hata: ${error.message}`);
+                }
+              }}
+              className="py-2 px-4 rounded-lg font-semibold text-blue-200 hover:text-white transition-colors duration-300 bg-red-600 hover:bg-red-700"
+            >
+              <i className="fas fa-sign-out-alt mr-2"></i>Çıkış Yap
+            </button>
           </div>
-        )}
+        </div>
+      </nav>
 
-        {/* Conditional rendering for loading, login/register, or main app */}
-        {(!isAuthReady || (user && !isProfileLoaded)) ? ( 
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center text-gray-700 text-lg font-semibold">
-              { !isAuthReady ? "Uygulama Başlatılıyor..." : "Profil Yükleniyor..." }
-            </div>
+      {/* Display application-wide errors */}
+      {appError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative m-4 shadow-md">
+          <strong className="font-bold">Hata!</strong>
+          <span className="block sm:inline ml-2">{appError}</span>
+          <span className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onClick={() => setAppError(null)}>
+            <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" viewBox="0 0 20 20"><title>Kapat</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.414l-2.651 2.651a1.2 1.2 0 1 1-1.697-1.697L8.586 10 5.935 7.349a1.2 1.2 0 0 1 1.697-1.697L10 8.586l2.651-2.651a1.2 1.2 0 0 1 1.697 1.697L11.414 10l2.651 2.651a1.2 1.2 0 0 1 0 1.698z"/></svg>
+          </span>
+        </div>
+      )}
+
+      {/* Conditional rendering for loading, login/register, or main app */}
+      {(!isAuthReady || (user && !isProfileLoaded)) ? ( 
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center text-gray-700 text-lg font-semibold">
+            { !isAuthReady ? "Uygulama Başlatılıyor..." : "Profil Yükleniyor..." }
           </div>
-        ) : !user ? ( // User is not authenticated at all
-          <LoginRegister setAppError={setAppError} />
-        ) : ( // User is authenticated and profile is loaded (even if it's an empty initial profile)
-          <main className="flex-grow container mx-auto py-8">
-            {activeTab === 'dashboard' && <Dashboard key="dashboard-component" profile={profile} progressData={progressData} pseudoUserId={pseudoUserId} aiRecommendations={aiRecommendations} fetchAiRecommendations={fetchAiRecommendations} handleEditProgress={handleEditProgress} handleDeleteProgress={handleDeleteProgress} />}
-            {activeTab === 'profile' && <Profile key="profile-component" profile={profile} user={user} pseudoUserId={pseudoUserId} />}
-            {activeTab === 'progress' && <ProgressEntry key="progress-component" profile={profile} pseudoUserId={pseudoUserId} progressData={progressData} editingProgressEntry={editingProgressEntry} setEditingProgressEntry={setEditingProgressEntry} handleDeleteProgress={handleDeleteProgress} />}
-            {activeTab === 'aiCoach' && <AICoachChat key="main-ai-coach" pseudoUserId={pseudoUserId} aiChatHistory={aiChatHistory} setAiChatHistory={setAiChatHistory} />}
-            {activeTab === 'aiMock' && <AIMockExam key="ai-mock-component" profile={profile} pseudoUserId={pseudoUserId} />}
-            {activeTab === 'aiTopic' && <AITopicExplanation key="ai-topic-component" pseudoUserId={pseudoUserId} aiTopicHistory={aiTopicHistory} setAiTopicHistory={setAiTopicHistory} />} {/* Pass topic history */}
-          </main>
-        )}
+        </div>
+      ) : !user ? ( // User is not authenticated at all
+        <LoginRegister setAppError={setAppError} />
+      ) : ( // User is authenticated and profile is loaded (even if it's an empty initial profile)
+        <main className="flex-grow container mx-auto py-8">
+          {activeTab === 'dashboard' && <Dashboard key="dashboard-component" profile={profile} progressData={progressData} pseudoUserId={pseudoUserId} aiRecommendations={aiRecommendations} fetchAiRecommendations={fetchAiRecommendations} handleEditProgress={handleEditProgress} handleDeleteProgress={handleDeleteProgress} />}
+          {activeTab === 'profile' && <Profile key="profile-component" profile={profile} user={user} pseudoUserId={pseudoUserId} />}
+          {activeTab === 'progress' && <ProgressEntry key="progress-component" profile={profile} pseudoUserId={pseudoUserId} progressData={progressData} editingProgressEntry={editingProgressEntry} setEditingProgressEntry={setEditingProgressEntry} handleDeleteProgress={handleDeleteProgress} />}
+          {activeTab === 'aiCoach' && <AICoachChat key="main-ai-coach" pseudoUserId={pseudoUserId} aiChatHistory={aiChatHistory} setAiChatHistory={setAiChatHistory} />}
+          {activeTab === 'aiMock' && <AIMockExam key="ai-mock-component" profile={profile} pseudoUserId={pseudoUserId} />}
+          {activeTab === 'aiTopic' && <AITopicExplanation key="ai-topic-component" pseudoUserId={pseudoUserId} aiTopicHistory={aiTopicHistory} setAiTopicHistory={setAiTopicHistory} />} {/* Pass topic history */}
+        </main>
+      )}
 
-        {/* AI Coach Popup Button - Updated with a modern AI/bulb icon SVG */}
-        {profile && ( // Only show popup button if profile is loaded
-          <button
-            onClick={toggleAiCoachPopup}
-            className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg text-2xl z-50 transform hover:scale-110 transition-transform duration-300"
-            title="AI Koç ile Sohbet Et"
-          >
-            {/* Modern AI / Robot Icon (same as navbar) */}
-            <i className="fas fa-robot"></i>
-          </button>
-        )}
+      {/* AI Coach Popup Button - Updated with a modern AI/bulb icon SVG */}
+      {profile && ( // Only show popup button if profile is loaded
+        <button
+          onClick={toggleAiCoachPopup}
+          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg text-2xl z-50 transform hover:scale-110 transition-transform duration-300"
+          title="AI Koç ile Sohbet Et"
+        >
+          {/* Modern AI / Robot Icon (same as navbar) */}
+          <i className="fas fa-robot"></i>
+        </button>
+      )}
 
-        {/* AI Coach Chat Popup */}
-        {profile && showAiCoachPopup && ( // Only show popup if profile is loaded
-          <AICoachChat
-            key="popup-ai-coach"
-            isPopup={true}
-            showPopup={showAiCoachPopup}
-            togglePopup={toggleAiCoachPopup} // Fixed: Correct prop name for toggle function
-            pseudoUserId={pseudoUserId}
-            aiChatHistory={aiChatHistory}
-            setAiChatHistory={setAiChatHistory}
-          />
-        )}
-
-        {/* Footer for GitHub attribution */}
-        <footer className="bg-gray-800 text-white p-4 text-center mt-auto">
-          {/* Removed "Akademi Koçu'ndan Ek Öneriler" section */}
-          <div className="mt-4 text-sm">
-            <p className="font-semibold">Destek için:</p>
-            <p>Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:underline">@sirfatihsultanterim</a></p>
-            <p>E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-300 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
-          </div>
-          {/* GitHub Attribution */}
-          <p className="text-xs text-gray-400 mt-2 flex items-center justify-center">
-            <i className="fab fa-github mr-2"></i> GitHub'ın gücüyle Yusuf tarafından yapıldı.
-          </p>
-          <p className="text-xs text-gray-400 mt-2">&copy; {new Date().getFullYear()} Akademi Koçu Tüm hakları saklıdır.</p>
-        </footer>
-
-        {/* Confirmation Modal */}
-        <ConfirmationModal
-          show={showConfirmModal}
-          message={modalMessage}
-          onConfirm={modalAction}
-          onCancel={() => {
-            setShowConfirmModal(false);
-            setModalAction(null);
-          }}
+      {/* AI Coach Chat Popup */}
+      {profile && showAiCoachPopup && ( // Only show popup if profile is loaded
+        <AICoachChat
+          key="popup-ai-coach"
+          isPopup={true}
+          showPopup={showAiCoachPopup}
+          togglePopup={toggleAiCoachPopup} // Fixed: Correct prop name for toggle function
+          pseudoUserId={pseudoUserId}
+          aiChatHistory={aiChatHistory}
+          setAiChatHistory={setAiChatHistory}
         />
+      )}
 
-        {/* FontAwesome for Icons */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-        {/* Inter Font */}
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        <style>
-          {`
-            body {
-              font-family: 'Inter', sans-serif;
-            }
-            .prose {
-              color: #333;
-              line-height: 1.6;
-            }
-            .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-              color: #1a202c;
-              margin-top: 1.5em;
-              margin-bottom: 0.5em;
-              line-height: 1.2;
-            }
-            .prose p {
-              margin-bottom: 1em;
-            }
-            /* Custom styles for better aesthetics */
-            button {
-              transition: all 0.3s ease;
-            }
-            button:hover {
-              transform: translateY(-2px);
-            }
-            input, select {
-              box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            }
-            input:focus, select:focus {
-              outline: none;
-              box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with opacity */
-            }
-            .shadow-lg {
-              box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            }
-            .rounded-xl {
-              border-radius: 1rem;
-            }
-          `}
-        </style>
-      </div>
-    );
-  }
+      {/* Footer for GitHub attribution */}
+      <footer className="bg-gray-800 text-white p-4 text-center mt-auto">
+        {/* Removed "Akademi Koçu'ndan Ek Öneriler" section */}
+        <div className="mt-4 text-sm">
+          <p className="font-semibold">Destek için:</p>
+          <p>Instagram: <a href="[https://www.instagram.com/sirfatihsultanterim](https://www.instagram.com/sirfatihsultanterim)" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:underline">@sirfatihsultanterim</a></p>
+          <p>E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-300 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
+        </div>
+        {/* GitHub Attribution */}
+        <p className="text-xs text-gray-400 mt-2 flex items-center justify-center">
+          <i className="fab fa-github mr-2"></i> GitHub'ın gücüyle Yusuf tarafından yapıldı.
+        </p>
+        <p className="text-xs text-gray-400 mt-2">&copy; {new Date().getFullYear()} Akademi Koçu Tüm hakları saklıdır.</p>
+      </footer>
 
-export default App;
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        show={showConfirmModal}
+        message={modalMessage}
+        onConfirm={modalAction}
+        onCancel={() => {
+          setShowConfirmModal(false);
+          setModalAction(null);
+        }}
+      />
+
+      {/* FontAwesome for Icons */}
+      <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css)" />
+      {/* Inter Font */}
+      <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap)" rel="stylesheet" />
+      <style>
+        {`
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+          .prose {
+            color: #333;
+            line-height: 1.6;
+          }
+          .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+            color: #1a202c;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+          }
+          .prose p {
+            margin-bottom: 1em;
+          }
+          /* Custom styles for better aesthetics */
+          button {
+            transition: all 0.3s ease;
+          }
+          button:hover {
+            transform: translateY(-2px);
+          }
+          input, select {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+          }
+          input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with opacity */
+          }
+          .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          }
+          .rounded-xl {
+            border-radius: 1rem;
+          }
+        `}
+      </style>
+    </div>
+  );
+}
