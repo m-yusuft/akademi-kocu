@@ -1878,7 +1878,7 @@ const ProgressEntry = React.memo(({ profile, pseudoUserId, progressData, editing
   }); // Wrapped with React.memo
 
 
-  function App() {
+  export default function App() {
     const [user, setUser] = useState(null); 
     const [pseudoUserId, setPseudoUserId] = useState(null); 
     const [isAuthReady, setIsAuthReady] = useState(false); // Auth state initialized
