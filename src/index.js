@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+// Artık App.js'i değil, kendi ana bileşenimizi import ediyoruz
+// main.jsx dosyanızın varsayılan (default) bir bileşen export ettiğini varsayıyorum.
+import YourMainComponent from './main.jsx'; // main.jsx dosyanızı import edin
 import reportWebVitals from './reportWebVitals';
+import './index.css'; // Tailwind CSS ve diğer global stiller için
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <YourMainComponent /> {/* Burada kendi ana bileşeninizi render ediyoruz */}
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Uygulamanızın performansını ölçmek isterseniz bu kısmı kullanabilirsiniz.
 reportWebVitals();
