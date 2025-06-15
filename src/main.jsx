@@ -92,7 +92,7 @@ Bu Gizlilik Sözleşmesini zaman zaman güncelleyebiliriz. Herhangi bir değişi
 
 Gizlilik Sözleşmemiz hakkında sorularınız veya endişeleriniz varsa, lütfen bizimle iletişime geçin:
 
-**E-posta:** yusuf.akademikkocudestek@gmail.com
+**E-posta:** yusuf.akademikocudestek@gmail.com
 **Instagram:** @sirfatihsultanterim
 `;
 const PRIVACY_POLICY_VERSION = '1.0'; // Current version of the privacy policy
@@ -538,7 +538,7 @@ const LoginRegister = React.memo(({ setAppError }) => {
           <div className="text-center text-sm text-gray-600 mt-4">
             <p>Destek için:</p>
             <p className="font-semibold">Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
-            <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
+            <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikocudestek@gmail.com</a></p>
           </div>
         </form>
       </div>
