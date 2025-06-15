@@ -1039,7 +1039,7 @@ const Dashboard = React.memo(({ profile, progressData, pseudoUserId, aiRecommend
           <div className="text-center text-sm text-gray-600 mb-6">
             <p>Destek için:</p>
             <p className="font-semibold">Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">@sirfatihsultanterim</a></p>
-            <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
+            <p className="font-semibold">E-posta: <a href="mailto:yusuf.akademikocudestek@gmail.com" className="text-blue-600 hover:underline">yusuf.akademikocudestek@gmail.com</a></p>
           </div>
 
           <div className="flex justify-center">
@@ -3275,7 +3275,7 @@ const Dashboard = React.memo(({ profile, progressData, pseudoUserId, aiRecommend
           <div className="mt-4 text-sm">
             <p className="font-semibold">Destek için:</p>
             <p>Instagram: <a href="https://www.instagram.com/sirfatihsultanterim" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:underline">@sirfatihsultanterim</a></p>
-            <p>E-posta: <a href="mailto:yusuf.akademikkocudestek@gmail.com" className="text-blue-300 hover:underline">yusuf.akademikkocudestek@gmail.com</a></p>
+            <p>E-posta: <a href="mailto:yusuf.akademikocudestek@gmail.com" className="text-blue-300 hover:underline">yusuf.akademikocudestek@gmail.com</a></p>
           </div>
           {/* GitHub Attribution */}
           <p className="text-xs text-gray-400 mt-2 flex items-center justify-center">
