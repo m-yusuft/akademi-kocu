@@ -602,9 +602,9 @@ const Dashboard = React.memo(({ profile, progressData, pseudoUserId, aiRecommend
   };
 
   // Updated target dates for 2025
-  const tytTarget = new Date('2025-06-21T10:00:00').getTime(); 
-  const aytTarget = new Date('2025-06-22T10:00:00').getTime(); 
-  const lgsTarget = new Date('2025-06-14T09:00:00').getTime(); // Adjusted to Saturday June 14, 2025
+  const tytTarget = new Date('2026-06-21T10:00:00').getTime(); 
+  const aytTarget = new Date('2026-06-22T10:00:00').getTime(); 
+  const lgsTarget = new Date('2026-06-14T09:00:00').getTime(); // Adjusted to Saturday June 14, 2025
 
   const [tytCountdown, setTytCountdown] = useState('');
   const [aytCountdown, setAytCountdown] = useState('');
