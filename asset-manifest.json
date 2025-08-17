@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/akademi-kocu/static/css/main.710423db.css",
-    "main.js": "/akademi-kocu/static/js/main.20eb728d.js",
+    "main.js": "/akademi-kocu/static/js/main.ad888bf4.js",
     "static/js/453.29383249.chunk.js": "/akademi-kocu/static/js/453.29383249.chunk.js",
     "index.html": "/akademi-kocu/index.html",
     "main.710423db.css.map": "/akademi-kocu/static/css/main.710423db.css.map",
-    "main.20eb728d.js.map": "/akademi-kocu/static/js/main.20eb728d.js.map",
+    "main.ad888bf4.js.map": "/akademi-kocu/static/js/main.ad888bf4.js.map",
     "453.29383249.chunk.js.map": "/akademi-kocu/static/js/453.29383249.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.710423db.css",
-    "static/js/main.20eb728d.js"
+    "static/js/main.ad888bf4.js"
   ]
 }
